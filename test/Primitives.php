@@ -2,7 +2,7 @@
 use PHPUnit\Framework\TestCase;
 
 require_once("../Dataclass.php");
-use Dataclass\Dataclass;
+use Dataclasses\Dataclass;
 
 /**
  *

@@ -1,10 +1,15 @@
 <?php declare(strict_types=1);
 
-namespace Dataclass;
+namespace Dataclasses;
+
+require_once("Utils.php");
+
 use InvalidArgumentException;
 use Generator;
 use JsonSerializable;
+use ReflectionClass;
 use StdClass;
+use Dataclasses\Utils;
 
 class Dataclass implements JsonSerializable {
     public function __construct(array $data) {
@@ -13,16 +18,37 @@ class Dataclass implements JsonSerializable {
                 throw new InvalidArgumentException("Property $property is unexpectedly absent on the data supplied");
             }
             switch (gettype($data[$property])) {
-                case 'array':
-                    /*$class = ArrayTools\get_object_var_class($this, $property);
+                case 'array': // Handle arrays and objects
+                    /*$class = Utils\get_object_var_class($this, $property);
                     if ($class === 'array') {
                         $this->{$property} = $data[$property];
                     } else {
                         $this->{$property} = new $class($data[$property]);
                     }
                     break;*/
-                default:
-                    $this->{$property} = $data[$property];
+                default: // Handle primitives and enums
+                    try {
+                        $this->{$property} = $data[$property];
+                    }
+                    catch(\TypeError $e)
+                    {
+
+                        $prospective_enum = Utils\last_word($e->getMessage());
+                        if(enum_exists($prospective_enum)) {
+                            $enum = (new ReflectionClass($prospective_enum));
+                            if($enum->hasMethod("from")) { // Backed enum
+                                $enum = (new ReflectionClass($prospective_enum));
+                                $fromMethod = $enum->getMethod("from");
+                                $this->{$property} = $fromMethod->invoke(null, $data[$property]);
+                            }
+                            else{
+                                $this->{$property} = constant("${prospective_enum}::${data[$property]}");
+                            }
+                        }
+                        else{
+                            throw $e;
+                        }
+                    }
             }
         }
     }
