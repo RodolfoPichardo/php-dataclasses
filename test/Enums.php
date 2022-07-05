@@ -1,6 +1,6 @@
 <?php
 
-require_once("../Dataclass.php");
+require_once("../src/Dataclass.php");
 
 use PHPUnit\Framework\TestCase;
 use Dataclasses\Dataclass;
