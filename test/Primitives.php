@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 use PHPUnit\Framework\TestCase;
 
-require_once("../Dataclass.php");
+require_once("../src/Dataclass.php");
 use Dataclasses\Dataclass;
 
 /**
