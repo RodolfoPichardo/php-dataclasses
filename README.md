@@ -6,7 +6,7 @@ The goal is to create shorter and readable classes, while also doing structural 
 
 ## Basic usage
  
-The most simple dataclass would not need any methods, keeping the code elegantly clean and digestible at a glance.
+The simplest dataclass won't need any methods, keeping the code elegantly clean and digestible at a glance.
 
 Example:
 
