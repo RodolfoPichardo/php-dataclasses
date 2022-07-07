@@ -32,22 +32,7 @@ class Dataclass implements JsonSerializable {
                     }
                     catch(\TypeError $e)
                     {
-
-                        $prospective_enum = Utils\last_word($e->getMessage());
-                        if(enum_exists($prospective_enum)) {
-                            $enum = (new ReflectionClass($prospective_enum));
-                            if($enum->hasMethod("from")) { // Backed enum
-                                $enum = (new ReflectionClass($prospective_enum));
-                                $fromMethod = $enum->getMethod("from");
-                                $this->{$property} = $fromMethod->invoke(null, $data[$property]);
-                            }
-                            else{
-                                $this->{$property} = constant("${prospective_enum}::${data[$property]}");
-                            }
-                        }
-                        else{
-                            throw $e;
-                        }
+                        $this->_handleEnums($property, $data[$property]);
                     }
             }
         }
@@ -79,6 +64,31 @@ class Dataclass implements JsonSerializable {
         }
 
         return $vars;
+    }
+
+    private function _handleEnums(string $name, mixed $value): void
+    {
+        try {
+           $this->{$name} = $value;
+        }
+        catch (\TypeError $e)
+        {
+            $prospective_enum = Utils\last_word($e->getMessage());
+            if(enum_exists($prospective_enum)) {
+                $enum = (new ReflectionClass($prospective_enum));
+                if($enum->isEnum() && $enum->hasMethod("from")) { // Backed enum
+                    $enum = (new ReflectionClass($prospective_enum));
+                    $fromMethod = $enum->getMethod("from");
+                    $this->{$name} = $fromMethod->invoke(null, $value);
+                }
+                else{
+                    $this->{$name} = constant("${prospective_enum}::$value");
+                }
+            }
+            else{
+                throw $e;
+            }
+        }
     }
 }
 
