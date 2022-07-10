@@ -52,9 +52,5 @@ There is no automatic installation as of yet, instead, clone this repository and
 - [ ] Benchmark the performance and make adjustments
 - [ ] Explore immutable dataclasses
 - [ ] Improve printing of dataclasses
-- [ ] Create qlternative constructors for special cases
-- [ ] Add contributions directive 
-
-## Examples
-
-Coming soon
+- [ ] Create alternative constructors for special cases
+- [ ] Add contributions directive
