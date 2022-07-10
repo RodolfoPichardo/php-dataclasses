@@ -40,13 +40,13 @@ There is no automatic installation as of yet, instead, clone this repository and
 
 - [x] Support primitives
 - [x] Support enumerators
-- [x] Support arrays of primitives
+- [ ] Support arrays of primitives
 - [x] Support nested dataclasses
 - [x] Support defaults
-- [ ] Support arrays of dataclasses
+- [x] Support arrays of dataclasses
 - [ ] Support dictionaries of dataclasses
 - [ ] Support properties with multiple possible types
-- [ ] Build with Jenkins
+- [ ] Build with a CI
 - [ ] Add to composer as a module
 - [ ] Expand the suit of tests
 - [ ] Benchmark the performance and make adjustments
