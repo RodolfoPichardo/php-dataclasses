@@ -53,4 +53,4 @@ There is no automatic installation as of yet, instead, clone this repository and
 - [ ] Explore immutable dataclasses
 - [ ] Improve printing of dataclasses
 - [ ] Create alternative constructors for special cases
-- [ ] Add contributions directive
+- [x] Add contributions directive
