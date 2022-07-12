@@ -103,6 +103,7 @@ class Dataclass implements JsonSerializable
     private function handle_objects(string $property, mixed $value): object
     {
         $class = Utils\get_property_class($this, $property);
+
         if ($class === 'array') {
             throw new InvalidArgumentException("Primitive array not supported (type of $property). Use ArrayOf or DictOf");
         } else if (str_ends_with($class, ArrayOf::class)) { // TODO remove this hacky way of checking array of
@@ -111,7 +112,7 @@ class Dataclass implements JsonSerializable
 
             foreach ($attributes as $attribute) {
                 $attrObj = $attribute->newInstance();
-                if (str_ends_with($attrObj::class, ArrayOf::class)) {
+                if (str_ends_with($attrObj::class, ArrayOf::class)) { // TODO remove this hacky way of checking array of
                     $attrObj->populate($value);
                     return $attrObj;
                 }

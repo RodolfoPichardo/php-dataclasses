@@ -1,13 +1,15 @@
 <?php
 
 require_once("../src/Dataclass.php");
+require_once("../src/ArrayOf.php");
 
 use PHPUnit\Framework\TestCase;
 use Dataclasses\Dataclass;
-
+use Dataclasses\ArrayOf;
 
 class GenericArraysTest extends Dataclass {
-    public array $arr;
+    #[ArrayOf("integer")]
+    public ArrayOf $arr;
 }
 
 class PrimitiveArrays extends TestCase
@@ -16,7 +18,6 @@ class PrimitiveArrays extends TestCase
         $arr = [3,1,4,1,5,9,2];
         $class = new GenericArraysTest(['arr' => $arr]);
         $this->assertTrue(isset($class->arr));
-        $this->assertSame($arr, $class->arr);
-        $this->assertSame('array', gettype($class->arr));
+        $this->assertSame($arr, $class->arr->getArrayCopy());
     }
 }
