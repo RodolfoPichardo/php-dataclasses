@@ -44,7 +44,7 @@ There is no automatic installation as of yet, instead, clone this repository and
 - [x] Support nested dataclasses
 - [x] Support defaults
 - [x] Support arrays of dataclasses
-- [ ] Support dictionaries of dataclasses
+- [x] Support dictionaries of dataclasses
 - [ ] Support properties with multiple possible types
 - [ ] Build with a CI
 - [ ] Add to composer as a module
