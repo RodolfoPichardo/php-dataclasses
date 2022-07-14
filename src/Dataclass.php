@@ -8,6 +8,7 @@ use InvalidArgumentException;
 use Generator;
 use JsonSerializable;
 use ReflectionClass;
+use ReflectionProperty;
 use StdClass;
 use Dataclasses\Utils;
 use TypeError;
@@ -106,13 +107,13 @@ class Dataclass implements JsonSerializable
 
         if ($class === 'array') {
             throw new InvalidArgumentException("Primitive array not supported (type of $property). Use ArrayOf or DictOf");
-        } else if (str_ends_with($class, ArrayOf::class)) { // TODO remove this hacky way of checking array of
-            $reflection = new \ReflectionProperty($this::class, $property);
+        } else if (is_a($class, ArrayOf::class, true)) {
+            $reflection = new ReflectionProperty($this::class, $property);
             $attributes = $reflection->getAttributes();
 
             foreach ($attributes as $attribute) {
                 $attrObj = $attribute->newInstance();
-                if (str_ends_with($attrObj::class, ArrayOf::class)) { // TODO remove this hacky way of checking array of
+                if (is_a($attrObj, ArrayOf::class)) {
                     $attrObj->populate($value);
                     return $attrObj;
                 }
