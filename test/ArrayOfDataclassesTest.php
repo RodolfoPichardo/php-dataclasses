@@ -1,8 +1,8 @@
 <?php
 
-require_once("../src/Dataclass.php");
-require_once("../src/ArrayOf.php");
-require_once("../src/DictOf.php");
+//require_once("../src/Dataclass.php");
+//require_once("../src/ArrayOf.php");
+//require_once("../src/DictOf.php");
 
 use PHPUnit\Framework\TestCase;
 use Dataclasses\Dataclass;
@@ -35,9 +35,9 @@ class Student2 extends Dataclass
 }
 
 
-
 // Self-referencing
-class Person extends Dataclass {
+class Person extends Dataclass
+{
     public string $firstName;
     public string $lastName;
 
@@ -47,7 +47,8 @@ class Person extends Dataclass {
 
 class ArrayOfDataclasses extends TestCase
 {
-    public function testSimpleArrayOf() {
+    public function testSimpleArrayOf()
+    {
         $student = new Student([
             "studentId" => 54321,
             "name" => "Peter Smith",
@@ -71,7 +72,8 @@ class ArrayOfDataclasses extends TestCase
         $this->assertSame("Linear Algebra", $student->courses[1]->name);
     }
 
-    public function testSimpleDictOf() {
+    public function testSimpleDictOf()
+    {
         $student = new Student2([
             "studentId" => 54321,
             "name" => "Peter Smith",

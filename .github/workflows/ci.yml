@@ -11,4 +11,5 @@ jobs:
       - uses: php-actions/composer@v5
       - uses: php-actions/phpunit@v3
         with:
+          bootstrap: vendor/autoload.php
           configuration: test/phpunit.xml

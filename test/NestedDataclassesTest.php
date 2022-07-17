@@ -1,6 +1,6 @@
 <?php
 
-require_once("../src/Dataclass.php");
+//require_once("../src/Dataclass.php");
 
 use PHPUnit\Framework\TestCase;
 use Dataclasses\Dataclass;
@@ -13,13 +13,15 @@ enum Pet
     case Fish;
 }
 
-class InnerClass extends Dataclass {
+class InnerClass extends Dataclass
+{
     public int $id;
     public string $name;
     public Pet $pet;
 }
 
-class OuterClass extends Dataclass {
+class OuterClass extends Dataclass
+{
     public string $uid;
     public string $descriptor;
     public InnerClass $innerClass;
@@ -27,7 +29,8 @@ class OuterClass extends Dataclass {
 
 class Nested extends TestCase
 {
-    public function testNestedClass(): void {
+    public function testNestedClass(): void
+    {
         $class = new OuterClass([
             "uid" => "10dec",
             "descriptor" => "outer class",

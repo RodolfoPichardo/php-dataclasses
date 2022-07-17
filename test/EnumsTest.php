@@ -1,6 +1,6 @@
 <?php
 
-require_once("../src/Dataclass.php");
+//require_once("../src/Dataclass.php");
 
 use PHPUnit\Framework\TestCase;
 use Dataclasses\Dataclass;
@@ -32,14 +32,16 @@ class BackedEnumTest extends Dataclass
 
 class Enums extends TestCase
 {
-    public function testSimpleEnum(): void {
+    public function testSimpleEnum(): void
+    {
         $class = new BasicEnumTest(['suit' => 'Clubs']);
         $this->assertTrue(isset($class->suit));
         $this->assertSame(Suit::Clubs, $class->suit);
         $this->assertSame('object', gettype($class->suit));
     }
 
-    public function testBackedEnum(): void {
+    public function testBackedEnum(): void
+    {
         $class = new BackedEnumTest(['color' => 1]); // Red
         $this->assertTrue(isset($class->color));
         $this->assertSame(Color::Red, $class->color);
