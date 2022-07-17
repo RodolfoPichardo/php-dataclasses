@@ -48,9 +48,5 @@ There is no automatic installation as of yet, instead, clone this repository and
 - [ ] Support properties with multiple possible types
 - [ ] Build with a CI
 - [ ] Add to composer as a module
-- [ ] Expand the suite of tests
-- [ ] Benchmark the performance and make adjustments
-- [ ] Explore immutable dataclasses
-- [ ] Improve printing of dataclasses
 - [ ] Create alternative constructors for special cases
 - [x] Add contributions directive
