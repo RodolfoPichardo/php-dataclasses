@@ -1,5 +1,7 @@
 # PHP Dataclasses
 
+![example workflow](https://github.com/RodolfoPichardo/Tests/actions/workflows/ci.yml/badge.svg)
+
 A declarative way of producing structured data on PHP. Heavily inspired on the python dataclass module.
 
 The goal is to create shorter and readable classes, while also doing structural validation.
