@@ -5,7 +5,7 @@ namespace Dataclasses;
 use ArrayIterator;
 use ArrayObject;
 use Attribute;
-use http\Exception\InvalidArgumentException;
+use InvalidArgumentException;
 
 #[Attribute] class ArrayOf extends ArrayObject
 {
@@ -24,7 +24,7 @@ use http\Exception\InvalidArgumentException;
         $handler_func = match ($this->className) {
             "integer", "double", "boolean", "string" => '_parse_primitive',
             default => '_parse_object',
-        };
+        }; // FIXME unnecessarily unclean
 
         foreach ($arr as $arrayItem) {
             $newArr[] = $this->$handler_func($arrayItem);

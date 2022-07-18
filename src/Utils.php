@@ -3,24 +3,19 @@
 namespace Dataclasses\Utils;
 
 use TypeError;
+use ReflectionClass;
+use ReflectionException;
 
-function last_word(string $sentence): string {
-    $last_word_pos = strrpos($sentence, ' ') + 1;
-    return substr($sentence, $last_word_pos);
-}
-
-// TODO: This is hacky
-// This is a function to get the declared class of instance variables before they are initialized.
-function get_property_class($obj, $property): string {
+function get_property_class(object $obj, string $property): string
+{
     try {
-        $obj->{$property} = '';
-    } catch(TypeError $e) {
-        $classname = last_word($e->getMessage());
-        if(str_starts_with($classname, '?')) {
-            $classname = substr($classname, 1);
-        }
-        return $classname;
+        $r = new ReflectionClass($obj::class);
+        $prop = $r->getProperty($property);
+        return $prop->getType()->getName();
+    } catch (ReflectionException $e) {
+        throw new TypeError(
+            "Unexpected error while trying to get the type of property `$property` on class `" . $obj::class . "`",
+            previous: $e
+        );
     }
-
-    throw new TypeError("");
 }
