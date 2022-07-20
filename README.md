@@ -47,8 +47,8 @@ There is no automatic installation as of yet, instead, clone this repository and
 - [x] Support defaults
 - [x] Support arrays of dataclasses
 - [x] Support dictionaries of dataclasses
-- [ ] Support properties with multiple possible types
-- [ ] Build with a CI
-- [ ] Add to composer as a module
-- [ ] Create alternative constructors for special cases
+- [x] Build with a CI
+- [x] Create alternative constructors for special cases
 - [x] Add contributions directive
+- [ ] Support properties with multiple possible types
+- [ ] Add to composer as a module
