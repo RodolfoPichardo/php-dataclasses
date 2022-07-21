@@ -38,7 +38,7 @@ This library requires PHP 8.1 or newer.
 
 There is no automatic installation as of yet, instead, clone this repository and copy the src directory onto your project.
 
-## TODO list
+## Phase 1 Roadmap
 
 - [x] Support primitives
 - [x] Support enumerators
@@ -50,5 +50,11 @@ There is no automatic installation as of yet, instead, clone this repository and
 - [x] Build with a CI
 - [x] Create alternative constructors for special cases
 - [x] Add contributions directive
-- [ ] Support properties with multiple possible types
+- [ ] Document every feature of the code
 - [ ] Add to composer as a module
+
+## Phase 2 Roadmap
+- [ ] Add validation methods
+- [ ] Explore database interfacing
+- [ ] Explore views (consider using traits)
+- [ ] Explore automatic input form construction
