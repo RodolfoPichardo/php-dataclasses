@@ -5,7 +5,7 @@ namespace Dataclasses;
 use ArrayIterator;
 use ArrayObject;
 use Attribute;
-use InvalidArgumentException;
+use Dataclasses\exception\InvalidFieldException;
 
 #[Attribute] class ArrayOf extends ArrayObject
 {
@@ -42,7 +42,9 @@ use InvalidArgumentException;
             return $value;
         }
 
-        throw new InvalidArgumentException("ArrayOf($this->className) received an invalid value of type $type");
+        throw new InvalidFieldException("ArrayOf($this->className) received an invalid value of type $type",
+            $this::class, ""
+        ); // FIXME Add property
     }
 
     protected function _parse_object(array $value): object
