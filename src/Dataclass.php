@@ -4,7 +4,7 @@ namespace Dataclasses;
 
 require_once("Utils.php");
 
-use Dataclasses\exception\InvalidFieldException;
+use InvalidArgumentException;
 use Generator;
 use JsonSerializable;
 use ReflectionClass;
@@ -22,8 +22,7 @@ class Dataclass implements JsonSerializable
                 // Use the default value
                 continue;
             } elseif (!array_key_exists($property, $data)) {
-                throw new InvalidFieldException("Property $property is unexpectedly absent on the data supplied",
-                    $this::class, $property);
+                throw new InvalidArgumentException("Property $property is unexpectedly absent on the data supplied");
             }
 
             $this->set_property($property, $data[$property]);
@@ -65,8 +64,7 @@ class Dataclass implements JsonSerializable
     {
         try {
             $this->{$name} = $value;
-            throw new InvalidFieldException("Unexpected error $name is expected to be of type enum",
-                $this::class, $name);
+            throw new InvalidArgumentException("Unexpected error $name is expected to be of type enum");
         } catch (TypeError $e) {
             $prospective_enum = Utils\get_property_class($this, $name);
             if (enum_exists($prospective_enum)) {
@@ -108,9 +106,7 @@ class Dataclass implements JsonSerializable
         $class = Utils\get_property_class($this, $property);
 
         if ($class === 'array') {
-            throw new InvalidFieldException("Primitive array not supported (type of $property). Use ArrayOf or DictOf",
-                $this::class, $property
-            );
+            throw new InvalidArgumentException("Primitive array not supported (type of $property). Use ArrayOf or DictOf");
         } else if (is_a($class, ArrayOf::class, true)) {
             $reflection = new ReflectionProperty($this::class, $property);
             $attributes = $reflection->getAttributes();
@@ -122,10 +118,7 @@ class Dataclass implements JsonSerializable
                     return $attrObj;
                 }
             }
-            throw new InvalidFieldException(
-                "ArrayOf missing required rule on dataclass '" . $this::class . "'  and field $property",
-                $this::class, $property
-            );
+            throw new InvalidArgumentException("ArrayOf missing required rule on dataclass '" . $this::class . "'  and field $property");
         } else {
             return $this->{$property} = new $class($value);
         }
