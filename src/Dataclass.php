@@ -3,6 +3,7 @@
 namespace Dataclasses;
 
 require_once("Utils.php");
+require_once("exception/InvalidDataException.php");
 
 use Dataclasses\exception\InvalidDataException;
 use Generator;
@@ -110,13 +111,13 @@ class Dataclass implements JsonSerializable
         if ($class === 'array') {
             throw new InvalidDataException("Primitive array not supported (type of $property). Use ArrayOf or DictOf",
                 className: $this::class, fieldName: $property);
-        } else if (is_a($class, ArrayOf::class, true)) {
+        } else if (is_a($class, DictOf::class, true)) {
             $reflection = new ReflectionProperty($this::class, $property);
             $attributes = $reflection->getAttributes();
 
             foreach ($attributes as $attribute) {
                 $attrObj = $attribute->newInstance();
-                if (is_a($attrObj, ArrayOf::class)) {
+                if (is_a($attrObj, DictOf::class)) {
                     $attrObj->populate($value);
                     return $attrObj;
                 }

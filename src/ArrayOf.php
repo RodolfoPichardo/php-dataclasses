@@ -2,51 +2,14 @@
 
 namespace Dataclasses;
 
-use ArrayIterator;
-use ArrayObject;
+require_once("DictOf.php");
+
 use Attribute;
-use InvalidArgumentException;
 
-#[Attribute] class ArrayOf extends ArrayObject
+#[Attribute] class ArrayOf extends DictOf
 {
-    public string $className;
-
-    public function __construct(string $className)
-    {
-        parent::__construct([], ArrayObject::STD_PROP_LIST, ArrayIterator::class);
-        $this->className = $className;
-    }
-
     public function populate($arr)
     {
-        $newArr = [];
-
-        $handler_func = match ($this->className) {
-            "integer", "double", "boolean", "string" => '_parse_primitive',
-            default => '_parse_object',
-        }; // FIXME unnecessarily unclean
-
-        foreach ($arr as $arrayItem) {
-            $newArr[] = $this->$handler_func($arrayItem);
-        }
-        $this->exchangeArray($newArr);
-    }
-
-    protected function _parse_primitive(mixed $value): mixed
-    {
-        $type = gettype($value);
-        if ($type === $this->className) {
-            return $value;
-        }
-        if ($type === 'integer' && $this->className === 'double') {
-            return $value;
-        }
-
-        throw new InvalidArgumentException("ArrayOf($this->className) received an invalid value of type $type");
-    }
-
-    protected function _parse_object(array $value): object
-    {
-        return new $this->className($value);
+        parent::populate(array_values($arr));
     }
 }
