@@ -1,5 +1,6 @@
 <?php declare(strict_types=1);
 
+use Dataclasses\exception\InvalidDataException;
 use PHPUnit\Framework\TestCase;
 
 //require_once("../src/Dataclass.php");
@@ -92,7 +93,7 @@ final class Primitives extends TestCase
         $class = new FloatClass(["num" => 3]);
 
         $this->assertSame(3.0, $class->num);
-        $this->assertSame('double', gettype($class->num));
+        $this->assertIsFloat($class->num);
     }
 
     public function BooleanFloat(): void
@@ -100,20 +101,41 @@ final class Primitives extends TestCase
         $class = new BooleanClass(["yes_or_no" => true]);
 
         $this->assertTrue(isset($class->yes_or_no), "Boolean instance variable is not initialized");
-        $this->assertSame(true, $class->yes_or_no);
+        $this->assertTrue($class->yes_or_no);
     }
 
     public function testDefaultValue(): void
     {
         $class = new ClassWithDefaultValues(['yes_or_no' => true]);
 
+
         $this->assertTrue(isset($class->yes_or_no), "Boolean instance variable is not initialized");
-        $this->assertSame(true, $class->yes_or_no);
+        $this->assertTrue($class->yes_or_no);
 
         $this->assertTrue(isset($class->num), "Boolean instance variable is not initialized");
         $this->assertSame(2.72, $class->num);
 
         $this->assertTrue(isset($class->str), "Boolean instance variable is not initialized");
         $this->assertSame("Bye world", $class->str);
+    }
+
+    public function testDefaultOverride(): void
+    {
+        $class = new ClassWithDefaultValues(['num' => 123, 'yes_or_no' => true, "str" => "lorem ipsum"]);
+
+        $this->assertTrue(isset($class->yes_or_no), "Boolean instance variable is not initialized");
+        $this->assertTrue($class->yes_or_no);
+
+        $this->assertTrue(isset($class->num), "Boolean instance variable is not initialized");
+        $this->assertSame(123.0, $class->num);
+
+        $this->assertTrue(isset($class->str), "Boolean instance variable is not initialized");
+        $this->assertSame("lorem ipsum", $class->str);
+    }
+
+    public function testAbsence(): void
+    {
+        $this->expectException(InvalidDataException::class);
+        new BooleanClass([]);
     }
 }

@@ -4,6 +4,7 @@
 //require_once("../src/ArrayOf.php");
 //require_once("../src/DictOf.php");
 
+use Dataclasses\exception\InvalidDataException;
 use PHPUnit\Framework\TestCase;
 use Dataclasses\Dataclass;
 use Dataclasses\ArrayOf;
@@ -43,6 +44,12 @@ class Person extends Dataclass
 
     #[ArrayOf(Person::class)]
     public ArrayOf $children;
+}
+
+class DictAndArrayOfMixUp extends Dataclass
+{
+    #[ArrayOf(Course::class)]
+    public DictOf $courses;
 }
 
 class ArrayOfDataclasses extends TestCase
@@ -98,4 +105,37 @@ class ArrayOfDataclasses extends TestCase
         $this->assertSame("mat-211", $student->courses["mat-211"]->code);
         $this->assertSame("Linear Algebra", $student->courses["mat-211"]->name);
     }
+
+    public function testSelfReferencingArray()
+    {
+        $person = new Person([
+            "firstName" => "Lily",
+            "lastName" => "Potter",
+            "children" => [
+                [
+                    "firstName" => "Harry",
+                    "lastName" => "Potter",
+                    "children" => []
+                ]
+            ]
+        ]);
+
+        $this->assertSame("Lily", $person->firstName);
+        $this->assertSame("Potter", $person->lastName);
+        $this->assertSame(1, count($person->children));
+        $this->assertSame("Harry", $person->children[0]->firstName);
+        $this->assertSame("Potter", $person->children[0]->lastName);
+        $this->assertEmpty($person->children[0]->children);
+
+    }
+
+    public function testDictOfAndArrayMixUp()
+    {
+        $this->expectException(InvalidDataException::class);
+
+        new DictAndArrayOfMixUp(["courses" => []]);
+    }
+
+    // TODO Test DictOf with non-associative Array as input
+    // TODO Test ArrayOf with associative Array as input
 }
