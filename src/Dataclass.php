@@ -116,8 +116,8 @@ class Dataclass implements JsonSerializable
             $attributes = $reflection->getAttributes();
 
             foreach ($attributes as $attribute) {
-                $attrObj = $attribute->newInstance();
-                if (is_a($attrObj, DictOf::class)) {
+                if ($attribute->getName() === $class) {
+                    $attrObj = $attribute->newInstance();
                     $attrObj->populate($value);
                     return $attrObj;
                 }
