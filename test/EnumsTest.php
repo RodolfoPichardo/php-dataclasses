@@ -2,6 +2,7 @@
 
 //require_once("../src/Dataclass.php");
 
+use Dataclasses\exception\InvalidDataException;
 use PHPUnit\Framework\TestCase;
 use Dataclasses\Dataclass;
 
@@ -46,5 +47,41 @@ class Enums extends TestCase
         $this->assertTrue(isset($class->color));
         $this->assertSame(Color::Red, $class->color);
         $this->assertSame('object', gettype($class->color));
+    }
+
+    public function testSimpleEnumEmptyFail(): void
+    {
+        $this->expectException(InvalidDataException::class);
+        new BasicEnumTest([]);
+    }
+
+    public function testSimpleEnumInvalidString(): void
+    {
+        $this->expectException(InvalidDataException::class);
+        new BasicEnumTest(["suit" => "unicorn"]);
+    }
+
+    public function testSimpleEnumInvalidInteger(): void
+    {
+        $this->expectException(InvalidDataException::class);
+        new BasicEnumTest(["suit" => 1]);
+    }
+
+    public function testBackedEnumEmptyFail(): void
+    {
+        $this->expectException(InvalidDataException::class);
+        new BackedEnumTest([]);
+    }
+
+    public function testBackedEnumInvalidString(): void
+    {
+        $this->expectException(InvalidDataException::class);
+        new BackedEnumTest(["color" => "red"]);
+    }
+
+    public function testBackedEnumInvalidInteger(): void
+    {
+        $this->expectException(InvalidDataException::class);
+        new BackedEnumTest(["color" => 4]);
     }
 }
